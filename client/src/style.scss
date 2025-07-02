@@ -1,0 +1,195 @@
+.home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  
+    .home-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid black;
+        padding:50px 60px;
+        gap: 20px;
+        border-radius: 15px;
+
+        .search-form{
+            border: 2px black solid;
+            padding: 15px 20px;
+            background-color: rgb(245, 245, 245);
+            border-radius: 15px;
+
+            .form{
+                display: flex;
+                align-items: center;
+                gap: 15px;
+
+                input{
+                    border: none;
+                    outline: none;
+                    width: 300px;
+                    padding: 30px;
+                    background-color: rgb(245, 245, 245);
+                    font-size: 20px;
+                    font-weight: 100;
+                    color: black;
+
+                }
+
+                button{
+                    border-radius: 10px;
+                    height: 50px;
+                    width: 60px;
+                    border: none;
+                    cursor: pointer;
+                    background-color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    img{
+                        object-fit: cover;
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+            }
+        }
+
+        .results{
+            border: 2px solid black;
+            max-height: 300px;
+            color: black;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            width: 475px;
+            background-color: rgb(245, 245, 245);
+            overflow: scroll;
+            font-size: 16px;
+            cursor: pointer;
+
+            .result-item{
+                padding: 15px;
+
+                &:hover{
+                    background-color: rgb(247, 251, 255);
+                }
+            }
+        }
+
+        .options{
+            border: 2px solid black;
+            border-radius: 15px;
+            width: 475px;
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(245, 245, 245);
+            overflow: hidden;
+            cursor: pointer;
+
+            .item{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+
+                img{
+                    height: 20px;
+                    width: 20px;
+                }
+
+                &:hover{
+                    background-color: rgb(247, 251, 255);
+                }
+            }
+        }
+    }
+}
+
+.chat{
+    display: flex;
+    justify-content: center;
+    
+
+    .chat-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 95vh;
+        width: 65%;
+        padding: 10px;
+        gap: 10px;
+
+        .message-area{
+            width: 100%;
+            height: calc(100% - 120px);
+            padding: 15px;
+            box-sizing: border-box;
+            overflow: scroll;
+
+            .message{
+                display: flex;
+                flex-direction: row-reverse;
+                margin-bottom: 20px;
+
+                .content{
+                    padding: 0px 25px;
+                    max-width: 70%;
+                    border-radius: 10px;
+                    background-color: rgb(239, 239, 239);
+                }
+
+                &.ai{
+                    display: flex;
+                    flex-direction: row;
+                    margin-bottom: 20px;
+
+                    .content{
+                        padding: 10px;
+                        max-width: 100%;
+                        border: none;
+                        background-color: white;
+                    }
+                }
+            }
+        }
+        
+        .message-typing-area{
+            height: 100px;
+            display: flex;
+            width: 70%;
+            align-items: center;
+            justify-content: center;
+
+            form{
+                border: 2px black solid;
+                padding: 20px 70px;
+                border-radius: 20px;
+
+                input{
+                    width: 270px;
+                    height: 80%;
+                    border: none;
+                    outline: none;
+                    font-size: 18px;
+
+                    &::placeholder{
+                        font-size: 16px;
+                    }
+                }
+
+                button{
+                    border: none;
+                    height: 50px;
+                    width: 100px;
+                    color: white;
+                    background-color: black;
+                    border-radius: 15px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

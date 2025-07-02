@@ -1,0 +1,14 @@
+variables.env
+/chroma
+/uploads
+/data
+/instance
+variables.env
+run.py
+/flask_session
+/.venv
+database.db
+
+database.db
+
+variables.env
