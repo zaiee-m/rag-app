@@ -1,4 +1,3 @@
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import time
 import chromadb
@@ -60,7 +59,8 @@ async def load_vector_store(file_path: str, chroma_path: str, api_key: str, coll
     )
 
     texts = text_splitter.create_documents([document])
-    print(len(texts))   
+    print("", end="\n\n\n\n")
+    print(len(texts), end="\n\n\n\n")   
 
     google_ef  = embedding_functions.GoogleGenerativeAiEmbeddingFunction(
         api_key=api_key,
@@ -98,10 +98,10 @@ async def load_vector_store(file_path: str, chroma_path: str, api_key: str, coll
         
         await asyncio.sleep(60)   
 
-    print(len(embeddings_generated))
+    print(len(embeddings_generated), end="\n\n\n\n")
     # Initialize vector store client
     persistent_client = chromadb.PersistentClient(chroma_path)
-
+    print("client successfully opened", end="\n\n\n\n")
 
     # Create a new vector store collection if first request from session
     collection = persistent_client.get_or_create_collection(

@@ -3,6 +3,7 @@ import os
 from . import config
 from flask_session import Session
 from flask_cors import CORS
+from dotenv import load_dotenv
 
 
 def create_app(test_config=None):
@@ -12,7 +13,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         UPLOAD_FOLDER = os.path.join(app.instance_path, 'uploads'),
         DATABASE = os.path.join(app.instance_path, 'database.db'),
-        VECTOR_STORE = os.path.join(app.instance_path, "chroma"),
+        VECTOR_STORE = os.path.join(app.instance_path, 'chroma'),
         SESSION_FILE_DIR= os.path.join(app.instance_path, 'sessions')
     )
 
@@ -24,6 +25,11 @@ def create_app(test_config=None):
 
     Session(app)
     CORS(app)
+
+    if not load_dotenv(os.path.join(app.root_path, "..", "varibles.env")):
+        raise ValueError("Invalid env file")
+    
+    app.config["API_KEY"] = os.getenv("GENAI_API_KEY")
 
     try:
         os.makedirs(os.path.join(app.instance_path, 'uploads'))
