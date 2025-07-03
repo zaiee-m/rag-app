@@ -31,4 +31,20 @@ def get_client(
         name=collection_name
     )
 
+def remove_collection(
+        collection_name:str,
+        chroma_path:str
+    ) -> None:
 
+    """
+        Args:
+            collection_name(str): name of the collection to be removed from the vector store
+        Returns:
+            None
+    """
+
+    # Delete the collection if it exists
+    try:
+        _get_client(chroma_path).delete_collection(name=collection_name)
+    except chromadb.errors.NotFoundError:
+        pass

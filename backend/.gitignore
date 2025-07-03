@@ -12,3 +12,5 @@ database.db
 database.db
 
 variables.env
+.gitignore
+/__pycache__

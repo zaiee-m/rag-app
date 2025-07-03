@@ -129,12 +129,11 @@ def upload():
 @bp.route('/test', methods=["GET", "POST"])
 def test():
     if 'session_id' in session:
-        if not os.path.exists(os.path.join(current_app.config['UPLOAD_FOLDER'], session["session_id"])):
-            # return jsonify({'message':'correctly indentified.'}), 200
-            os.makedirs(os.path.join(current_app.config['UPLOAD_FOLDER'], session["session_id"]))
         return jsonify({'message':f'current session is {session['session_id']}'}),200
     else:
-        return jsonify({'message':'No session'}),200
+        from . import  general
+        general.create_session()
+        return jsonify({'message':f"Session didn't exist : New session created {session['session_id']}"}),200
     
 
         
