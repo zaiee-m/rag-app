@@ -34,12 +34,12 @@ async def load_vector_store(file_path: str, chroma_path: str, api_key: str, coll
     """
 
     # Client for gemini api requests
-    
+
     try:
         client = genai.Client(api_key=api_key)
     except genai.errors.APIError as e:
         raise e
-    
+
     try:
         file = open(file_path)
     except OSError as e:
@@ -60,30 +60,30 @@ async def load_vector_store(file_path: str, chroma_path: str, api_key: str, coll
 
     texts = text_splitter.create_documents([document])
     print("", end="\n\n\n\n")
-    print(len(texts), end="\n\n\n\n")   
+    print(len(texts), end="\n\n\n\n")
 
     google_ef  = embedding_functions.GoogleGenerativeAiEmbeddingFunction(
         api_key=api_key,
         model_name=EMBEDDING_MODEL
-    )   
+    )
 
     # Generate chunks of 100 texts each.
     chunks = (chunk for chunk in _chunk_list(texts, BATCH_SIZE))
     embeddings_generated = []
     flag = 0
-  
+
     while len(embeddings_generated) < len(texts)/BATCH_SIZE:
         try:
             batch = islice(chunks, 100)
 
-            results_received = await asyncio.gather( 
+            results_received = await asyncio.gather(
                 *[
                     client.aio.models.embed_content(
                         model=EMBEDDING_MODEL,
                         contents=chunk
                     )for chunk in batch
-                ],  
-                return_exceptions=False 
+                ],
+                return_exceptions=False
             )
             embeddings_generated.extend(results_received)
         except genai.errors.APIError as e:
@@ -95,8 +95,8 @@ async def load_vector_store(file_path: str, chroma_path: str, api_key: str, coll
                 pass
             else:
                 raise e
-        
-        await asyncio.sleep(60)   
+
+        await asyncio.sleep(60)
 
     print(len(embeddings_generated), end="\n\n\n\n")
     # Initialize vector store client
@@ -131,7 +131,7 @@ async def load_vector_store(file_path: str, chroma_path: str, api_key: str, coll
     # Or to be queried
     return collection
 
-    
+
 
 
 def _chunk_list(lst, chunk_size):
@@ -140,9 +140,3 @@ def _chunk_list(lst, chunk_size):
         for text in lst[i:i+chunk_size]:
             result.append(text.page_content)
         yield result
-
-async def main():
-    collection = await load_vector_store('./instance/uploads/shakespear.txt', './instance', "AIzaSyARLp_PLXXOhjIqf8LStQ9HVNcTiQiuzws","test")
-
-if __name__=="__main__":
-    asyncio.run(main())
