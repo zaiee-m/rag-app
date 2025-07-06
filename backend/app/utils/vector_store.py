@@ -6,16 +6,12 @@ from itertools import islice
 from google import genai
 from google.genai import errors
 import chromadb.utils.embedding_functions as embedding_functions
-import os
-from dotenv import load_dotenv
 from uuid import uuid4
 
-import sys
 
 CHUNK_SIZE = 2_000
 CHUNK_OVERLAP = 250
 BATCH_SIZE = 100
-
 EMBEDDING_MODEL = "models/text-embedding-004"
 
 async def load_vector_store(file_path: str, chroma_path: str, api_key: str, collection_name: str):

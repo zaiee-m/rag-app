@@ -70,7 +70,6 @@ def create_app(test_config=None):
     def clear_expired_sessions():
         while True:
             time.sleep(60)
-            # print(".")
             current_time = datetime.now()
 
             # Acquire the lock before accessing the shared resource
@@ -79,9 +78,10 @@ def create_app(test_config=None):
                     last_activity = active_sessions[session_id]
 
                     # Check if the session has timed-out
-                    if current_time - last_activity > timedelta(minutes=30):
-                        print("removing session", end="\n\n")
-
+                    # Threshold for deleting data is set higher than treshold for session expiration
+                    # because we don't ever want to be in a situation where the user is trying to
+                    # access deleted data.
+                    if current_time - last_activity > timedelta(minutes=35):
                         # Remove any collections from vector_store tied to timed-out session
                         from .utils.chroma import remove_collection
                         remove_collection(session_id, app.config["VECTOR_STORE"])
@@ -92,11 +92,6 @@ def create_app(test_config=None):
                         except FileNotFoundError:
                             pass
 
-                        # .session_interface is the interface used by the current app to manage its sessions
-                        # https://flask-session.readthedocs.io/en/latest/config.html#flask-session-configuration-values
-                        # .cache is the client, FileSystemCache in this case
-                        # https://cachelib.readthedocs.io/en/stable/file/#cachelib.file.FileSystemCache
-                        app.session_interface.cache.delete(session_id)
                         del active_sessions[session_id]
 
     # Initialise and run the thread.
